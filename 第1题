@@ -40,3 +40,30 @@ public class Solution {
         return false;
     }
 }
+
+这是网上推荐的解法，速度跟我也差不多它133，我138ms
+public class Solution {
+    public boolean Find(int target, int [][] array) {
+        int rowCount;
+        int colCount;
+        rowCount = array.length;
+        colCount = array[0].length;
+        int i,j;
+        for(i=rowCount-1,j=0;i>=0&&j<colCount;)
+        {
+            if(target == array[i][j])
+                return true;
+            if(target < array[i][j])
+            {
+                i--;
+                continue;
+            }
+            if(target > array[i][j])
+            {
+                j++;
+                continue;
+            }
+        }
+        return false;
+    }
+}
