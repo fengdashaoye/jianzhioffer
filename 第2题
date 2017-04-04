@@ -1,0 +1,65 @@
+题目:请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
+思路：首先从整体考虑。
+之前比较傻，要比较各种情况，如字符串为空，字符串是否有空格，字符串空格在哪，然后从头开始往后遍历，我先将字符串string[] content=s1.split(" ")
+如此得到没有空格的所有字符，在添上%20，但是此时出现一种情况，我无法知道空格所在的位置，就算知道位置，有可能空格会连续几个。
+按照这种思路，我需要找到所有空格的位置以及空格之前是什么字符串，然后在对应的字符串后添上%20，且添上的%20个数可能不止一个。
+相当地麻烦。
+这时需要换一种思路。所有的空格变成%20.新字符串的长度比原先字符串长度长（2*空格数量）。
+我们新建这样的一个char[]数组，然后从后往前遍历，在没有遇到空格时，将原字符串的字符赋给新的数组，当遇到空格时，原字符创的指针往前移一个，
+新数组里添入%20，它的指针往前移动3个。
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+public class Solution {
+    public String replaceSpace(StringBuffer str) {
+        String aaa = str.toString();
+        int length_1 = lengthCondition(aaa);
+        if(length_1 == 0){
+            return aaa;
+        }else{
+            length_1 = aaa.length() + length_1*2;
+            char[] content = new char[length_1];
+            int i = length_1 - 1;
+            int j = str.length() - 1;
+            while(i >= 0){
+                if(aaa.charAt(j) != ' '){
+                    content[i] = aaa.charAt(j);
+                    i--;
+                    j--;
+                }else{
+                    j--;
+                    content[i] = '0';
+                    content[i-1] = '2';
+                    content[i-2] = '%';
+                    i = i - 3;
+                }
+            }
+            String fi = String.valueOf(content);
+            return fi;
+        }
+        
+    
+        
+    }
+    public int lengthCondition(String s1){
+        int number = 0;
+        for(int i = 0; i < s1.length(); i++){
+            if(s1.charAt(i) == ' '){
+                number++;
+            }
+        }
+        return number;
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
