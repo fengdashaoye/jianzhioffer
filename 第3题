@@ -1,0 +1,33 @@
+题目:输入一个链表，从尾到头打印链表每个节点的值。
+思路:一开始的思路是创建两个动态数组，第一个顺序存储，再将第1个动态数组的内容倒序存入第2个动态数组，因为这里是要返回ArrayList<Integer>
+所以存储，如果仅仅是打印的话可以用栈的思想
+第一种思路的代码:
+/**
+*    public class ListNode {
+*        int val;
+*        ListNode next = null;
+*
+*        ListNode(int val) {
+*            this.val = val;
+*        }
+*    }
+*
+*/
+import java.util.ArrayList;
+public class Solution {
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        ArrayList<Integer> result_1 = new ArrayList< Integer>();
+        ArrayList<Integer> result_2 = new ArrayList< Integer>();
+        while(listNode != null){
+            result_1.add(listNode.val);
+            listNode = listNode.next;
+        }
+        for(int i = result_1.size()-1; i >= 0; i--){
+            result_2.add(result_1.get(i));
+        }
+        return result_2;
+        
+    }
+}
+第2思路:打印是一种只读操作，用栈的思想来实现，
+而书中提到一个有趣的说法(敲黑板，重点<递归本质上就是一种栈结构>)
