@@ -1,0 +1,39 @@
+题目:
+用两个栈来实现一个队列，完成队列的Push和Pop操作。 队列中的元素为int类型。
+思路:第一个栈就往里压，然后依次取出第一个栈的值压入第2个栈，取出栈顶的值。
+注意：取出第2个栈的栈顶值时先不急返回，先pop掉，再返回，之前就是落了这一句疯狂报错
+代码:
+import java.util.Stack;
+
+public class Solution {
+    Stack<Integer> stack1 = new Stack<Integer>();
+    Stack<Integer> stack2 = new Stack<Integer>();
+    
+    public void push(int node) {
+        stack1.push((Integer)node);
+    }
+    
+    public int pop() {
+    	if(stack2.size() <= 0){
+            while(!stack1.empty()){
+                Integer aaa = stack1.peek();
+                stack1.pop();
+                stack2.push(aaa);
+            }
+        }
+        int number = stack2.peek();
+        stack2.pop();//落了这一句疯狂报错。
+        return number;   
+    }
+}
+这是落了那一句的报错的测试用例
+测试用例:
+["PSH1","PSH2","PSH3","POP","POP","PSH4","POP","PSH5","POP","POP"]
+
+对应输出应该为:
+
+1,2,3,4,5
+
+你的输出为:
+
+1,1,1,1,1
