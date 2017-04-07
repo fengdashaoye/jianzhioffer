@@ -1,0 +1,24 @@
+题目:
+把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。
+输入一个非递减排序的数组的一个旋转，输出旋转数组的最小元素。
+例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。
+NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。
+思路:一开始想的太简单了，从开始向后面遍历，只要遇到一个数字是比前面那个数字小的话就return。但是这个方法所花时间非常之多。
+第一种思路的代码:
+import java.util.ArrayList;
+public class Solution {
+    public int minNumberInRotateArray(int [] array) {
+    	if(array.length == 0){
+            return 0;
+        }
+        int number = array[0];
+        for(int i = 0; i < array.length-1; i++){
+            if(array[i+1] < array[i]){
+                number = array[i+1];
+                break;
+            }
+        }
+        return number;
+    }
+}
+第2中思路:二分法，旋转后分为两个部分，前面那个部分的值都大于后面那个部分的值
