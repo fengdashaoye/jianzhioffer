@@ -1,0 +1,25 @@
+题目:大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项。
+n<=39
+注意本题:0,1,1,2,3,5,......
+思路：本题最好不要递归，用迭代，因为如果用递归的话，栈深度难免不够，如果是2叉树可以用，因为其深度一般不深，如果是斐波那契，那么栈
+深度应该不够
+代码:
+public class Solution {
+    int first = 1;
+    int end = 1;
+    public int Fibonacci(int n) {
+        if(n == 0)
+            return 0;
+        if(n == 1)
+            return 1;
+		int start = 1;
+        int before = 0;
+        int result = start;
+    	for(int i = 1; i < n; i++){
+        	result = start + before;
+            before = start;
+            start = result;
+    	}
+        return result;
+    }
+}
