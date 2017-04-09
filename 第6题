@@ -21,4 +21,62 @@ public class Solution {
         return number;
     }
 }
-第2中思路:二分法，旋转后分为两个部分，前面那个部分的值都大于后面那个部分的值
+第2中思路:二分法，旋转后分为两个部分，前面那个部分的值都大于后面那个部分的值.老实说时间差不多。
+如果array[medium]>array[low] 则low = medium，不要low=medium+1，之前就是错在这里
+如果array[medium]<array[low]则high = medium
+我写的代码:
+import java.util.ArrayList;
+public class Solution {
+    public int minNumberInRotateArray(int [] array) {
+    	if(array.length == 0){
+            return 0;
+        }
+        int number = array[0];
+        int low = 0;
+        int high = array.length-1;
+        int medium = 0;
+        while(low <= high){
+        	medium = (low + high)/2;
+            if(array[medium]>array[low]){
+                low = medium;
+            }else if(array[medium] < array[low]){
+                high = medium;
+            }else{
+                number = array[medium];
+                   if(array[medium+1]<array[medium])
+                       number = array[medium+1];
+                break;
+            }
+        }
+        
+        return number;
+    }
+}
+
+书上的代码:
+import java.util.ArrayList;
+public class Solution {
+    public int minNumberInRotateArray(int [] array) {
+    	if(array.length == 0){
+            return 0;
+        }
+        int number = array[0];
+        int low = 0;
+        int high = array.length-1;
+        int medium = 0;
+        while(array[low] >= array[high]){
+            if(high - low == 1){
+                medium = high;
+                break;
+            }
+            medium = (low + high) / 2;
+            if(array[medium] >= array[low]){
+                low = medium;
+            }else if (array[medium] <= array[low]){
+                high = medium;
+            }
+        }
+        
+        return array[medium];
+    }
+}
