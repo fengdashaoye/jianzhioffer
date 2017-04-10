@@ -9,12 +9,12 @@ f(n)=f(n-1)+f(n-2)+f(n-3)
 代码:
 public class Solution {
     public int JumpFloor(int target) {
-		if(target == 0)
-            return 1;
+	if(target == 0)
+            return 0;
         if(target == 1)
             return 1;
         int start = 1;
-        int before = 1;
+        int before = 1;//注意此时before是1不是0，因为在target为2时返回的是2不是1
         int result = start;
         for(int i = 1; i < target; i++){
             result = start + before;
