@@ -12,11 +12,11 @@ public class Solution {
             return 0;
         if(n == 1)
             return 1;
-		int start = 1;
+	int start = 1;
         int before = 0;
         int result = start;
     	for(int i = 1; i < n; i++){
-        	result = start + before;
+            result = start + before;
             before = start;
             start = result;
     	}
