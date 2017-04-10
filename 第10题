@@ -1,0 +1,25 @@
+题目:我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？
+思路://第1个要是横着放，则有f(n-1)中，第1个要是竖着放，则有f(n-2)种
+    //f(n) = f(n-1) + f(n-2)，斐波那契数列，注意(敲黑板)target=0时return 0 不是1
+代码:
+public class Solution {
+    public int RectCover(int target) {
+		//第1个要是横着放，则有f(n-1)中，第1个要是竖着放，则有f(n-2)种
+        //f(n) = f(n-1) + f(n-2)，斐波那契数列，注意target=0时return 0 不是1
+        if(target == 0)
+            return 0;
+        if(target == 1)
+            return 1;
+        int start = 1;
+        int before = 1;
+        int result = start;
+        for(int i = 1; i < target; i++){
+            result = start + before;
+            before = start;
+            start = result;
+        }
+        return result;
+            
+        
+    }
+}
