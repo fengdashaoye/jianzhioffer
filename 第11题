@@ -38,3 +38,49 @@ public class Solution {
         return result;
     }
 }
+位运算代码:
+最开始的代码:会出现死循环，
+一开始的原理，不断与1与，若为1则1&1=1 若为0则0&1=0 不断右移计算
+但是如果输入负数，0x80000000,右移后为0xC0000000，而不是0x40000000，因为是负数，最高位为1，最终为0xffffffff，所以死循环
+public class Solution {
+    public int NumberOf1(int n) {
+		int count = 0;
+        while(n != 0){
+            if((n & 1) != 0)
+                count++;
+            n = n >> 1;
+        }
+        return count;
+    }
+}
+一般的代码:为了避免负数的死循环，我们左移
+首先把n与1(flag)相与，此时判断的是最低位是否为1，接着左移flag，1变成了2，然后flag与n相与，判断第2位是否为1，因为
+在java中int 32位，移到最后为0.
+public class Solution {
+    public int NumberOf1(int n) {
+		int result = 0;
+        int flag = 1;
+        while(flag != 0){
+            if((n & flag) != 0) //注意这里(n & flag) == 1报错
+                result++;
+            flag = flag << 1;
+	}
+        return result;
+    }
+}
+
+比较好的方法:
+一个整数减1的情况，如果最低位为1，减完后最低位变成0
+如果最低位为0，如果最右边的1位于m位，减去1后，该m位变成0，m位之后(之右)0变成1
+以1100举例，ll00减1后变成1011,1100&1011 = 1000 把1100最右边的1变成0
+public class Solution {
+    public int NumberOf1(int n) {
+		int result = 0;
+        
+        while(n != 0){
+            ++result;
+            n = n & (n-1);
+	}
+        return result;
+    }
+}
