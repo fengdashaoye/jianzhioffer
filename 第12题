@@ -1,0 +1,58 @@
+题目:给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。
+思路:一开始想的太简单，虽然代码过了
+代码：
+public class Solution {
+    public double Power(double base, int exponent) {
+    	double result;
+        result = Math.pow(base, exponent);
+        return result;
+  	}
+}
+思路：但是没有考虑到如果base为0且exponent为负数怎么办
+需要做特殊处理，出错
+public class Solution {
+    public double powmath(double base, int exponent){
+        double result = 1;
+        for(int i = 0; i < exponent; i++){
+            result = result * base;
+        }
+        return result;
+    }
+    public boolean equals(double num1, double num2){
+        if(num1 - num2 > -0.0000001 && num1 - num2 < 0.0000001)//注意啦，不是if(num1 - num2 > -0.0000001 && num2 - num1 < 0.0000001)
+            return true;
+        return false;
+    }
+    
+    public double Power(double base, int exponent) {
+        boolean aaa = equals(base, 0.0);
+    	  if(aaa && (exponent < 0)){
+            return 0.0;
+        }
+            
+        int absexponent = exponent;
+        if(exponent < 0){
+            absexponent = - exponent;
+        }
+        double result = powmath(base, absexponent);
+        
+        
+        return exponent>0?result:(1/result);
+            
+        
+  	}
+    
+}
+合格的代码:
+public class Solution {
+    public double Power(double base, int exponent) {
+    	double result = 1;
+        for(int i = 0; i < Math.abs(exponent); i++){
+            result *= base;
+        }
+        if(exponent < 0){
+            result = 1 / result;
+        }
+        return result;
+  	}
+}
