@@ -1,0 +1,33 @@
+题目:输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，
+所有的偶数位于位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
+思路：左移右移的问题（注意网易的题目中有最小步，到时候算左移的次数，算右移的次数，比较得出最小数）
+此题我只看左移
+嗯此想法不错，我有很大的进步
+首先从头遍历
+如果是奇数，就不看了往后
+如果是偶数，第2层循环，看该偶数后面的数，如果是偶数，则继续往后知道遇到一个奇数，然后改奇数依次与前面的偶数交换直到最初的那个偶数
+如此保证了相对位置
+代码：
+public class Solution {
+    public void reOrderArray(int [] array) {
+	       for(int i = 0; i < array.length; i++){
+	           for(int j = i+1; j < array.length; j++){
+	           		if(array[i] % 2 == 0){
+	                    if(array[j] % 2 != 0){
+	                        int number = j;
+	                        while(number > i){
+	                            int mid = array[number-1];
+	                            array[number-1] = array[number];
+	                            array[number] = mid;
+	                            number--;
+	                        }
+	                        break;
+	                    }
+	                    
+	                }else{
+                        break;
+                    }
+	           }
+	       } 
+	}
+}
