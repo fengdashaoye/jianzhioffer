@@ -5,7 +5,7 @@
 但我还是在想怎么在一个递归里解决这个问题，想不出来后看书，其用两个递归解决上面的两个过程。
 具体思路是这样的:
 第一个递归，找到一个节点与子树的根节点的值相等。
-不断递归，如果相等，则
+不断递归，如果找到，则调用第2个递归，看子树的左子树和右子树.
 代码:
 /**
 public class TreeNode {
@@ -25,7 +25,7 @@ public class Solution {
         boolean result = false;
         if(root1 != null && root2 != null)
             if(root1.val == root2.val){
-            	result = HasSubtree2(root1, root2);
+            	result = HasSubtree2(root1, root2);//第2个递归的入口
             if(!result)
                 result = HasSubtree(root1.left,root2);
             if(!result)
