@@ -1,0 +1,49 @@
+题目:输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
+思路:一般涉及到树的都可以用递归，因为树的深度不会太深，所以栈容量不够的情况一般不会出现。
+而且，一般树的左子树、右子树一般都是递归的。
+首先，遇到这个题：我的想法是先找到子树的根节点与原树的哪个节点相等，然后在匹配其左子树和右子树的情况。
+但我还是在想怎么在一个递归里解决这个问题，想不出来后看书，其用两个递归解决上面的两个过程。
+代码:
+/**
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+    public boolean HasSubtree(TreeNode root1,TreeNode root2) {
+        boolean result = false;
+        if(root1 != null && root2 != null)
+            if(root1.val == root2.val){
+            	result = HasSubtree2(root1, root2);
+            if(!result)
+                result = HasSubtree(root1.left,root2);
+            if(!result)
+                result = HasSubtree(root1.right,root2);    
+        }
+        return result;
+        
+    }
+    public boolean HasSubtree2(TreeNode root1,TreeNode root2){
+        if(root2 == null)
+            return true;
+        
+        if(root1 == null)
+            return false;
+        
+        if(root1.val != root2.val)
+            return false;
+        
+        return HasSubtree2(root1.left, root2.left) && HasSubtree2(root1.right, root2.right);
+    }
+}
+
+
+
