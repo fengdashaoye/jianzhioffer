@@ -1,0 +1,115 @@
+题目:操作给定的二叉树，将其变换为源二叉树的镜像。 
+输入描述:
+二叉树的镜像定义：源二叉树 
+    	    8
+    	   /  \
+    	  6   10
+    	 / \  / \
+    	5  7 9 11
+    	镜像二叉树
+    	    8
+    	   /  \
+    	  10   6
+    	 / \  / \
+    	11 9 7  5
+思路:肯定是递归，然后仔细观察，就是非叶节点的左右节点互换位置
+代码:
+操作给定的二叉树，将其变换为源二叉树的镜像。 
+代码:此代码没有通过
+/**
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+    public void Mirror(TreeNode root) {
+        if(root.left != null && root.right != null){//非叶节点
+            TreeNode middle = root.left;
+            root.left = root.right;
+            root.right = middle;   
+        }
+        Mirror(root.left);
+        Mirror(root.right);    
+    }
+}
+这是之前的解释:仔细看，这个只是递进去，没有归回来，所以不算递归，java.lang.NullPointerException
+java.lang.NullPointerException不是因为什么所谓的只是递进去，没有归回来，在root.left 和 root.right 交换后，整个左右字数整体换位
+即第1回会变成
+          8         ->            8
+    	   /  \                   /  \
+    	  6   10                 10    6
+    	 / \  / \                / \   /  \
+    	5  7 9 11               9  11  5   7
+  整体搬移，因为root.right的后续left,right关系没变，只是原先root.right这个点指向root 的left.
+  java.lang.NullPointerException 是因为没有区分root.left是否为null的情况下就递归，因为如果root.left为null，则不存在(root.left).left所以
+  丢指针
+  代码:
+  /**
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+    public void Mirror(TreeNode root) {
+        if(root == null || (root.left == null && root.right == null))//用于处理空树和叶子节点，
+            return;
+        
+        TreeNode middle = root.left; //非叶节点
+        root.left = root.right;
+        root.right = middle;   
+       
+        if(root.left != null)//但是感觉没有必要解决叶子节点，因为是在root.left非空下处理左子树
+            Mirror(root.left);
+        if(root.right != null)//但是感觉没有必要解决叶子节点，因为是在root.right非空下处理左子树
+            Mirror(root.right);
+       
+    }
+}
+我对我原先第1个代码改动，这样也能编译过
+/**
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+    public void Mirror(TreeNode root) {
+        //if(root == null || (root.left == null && root.right == null))
+            //return;
+        if(root == null)//仅需处理空树
+            return;
+        TreeNode middle = root.left; //非叶节点
+        root.left = root.right;
+        root.right = middle;   
+       
+        if(root.left != null)
+            Mirror(root.left);
+        if(root.right != null)
+            Mirror(root.right);
+       
+    }
+}
+    	   
