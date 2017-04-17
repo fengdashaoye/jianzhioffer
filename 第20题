@@ -5,9 +5,17 @@
 此时就需要边界了，
 注意每一个圈的起点都是[start][start]，如[0][0]和[1][1]
 注意当matrix.length>start*2 && matrix[0].length>start*2时还有内圈，否则已经全部遍历完了。
-add入list的时候也需要注意边界
+add入list的时候也需要注意边界,
 //while((row >= start*2) && (column >= start*2))
 上面这行是没有注意到边界，所以会多输出
+解释一下，因为都是add一个方形结构，顺序为左->右,上->下,右->左,下到上
+我们可以发现，左右、上下都是对偶的，又因为start是从左上开始，
+所以row>start*2 && column > start*2
+且row和column为具体的矩阵的宽和高，而start是从0开始的，
+所以row>start*2 && column > start*2 而不是(row >= start*2) && (column >= start*2)
+这样会多输出。
+
+
 if(start < end_row){//注意边界，没有注意到边界经常会多输出
 if(end_colum > start && end_row > start){//注意边界，没有注意到边界经常会多输出
 if(end_row-1 > start && end_colum > start){//注意边界，没有注意到边界经常会多输出
