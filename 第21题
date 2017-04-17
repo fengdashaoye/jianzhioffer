@@ -1,0 +1,55 @@
+题目:定义栈的数据结构，请在该类型中实现一个能够得到栈最小元素的min函数。
+思路：因为要定义栈的数据结构
+还没开始写的时候是这样的:我想不太可能直接用栈的数据结构吧，不太可能直接用push,pop功能吧
+于是我需要用另外一个数据结构来定义栈的数据结构。
+import java.util.Stack;
+
+public class Solution {
+
+    
+    public void push(int node) {
+        
+    }
+    
+    public void pop() {
+        
+    }
+    
+    public int top() {
+        
+    }
+    
+    public int min() {
+        
+    }
+}
+因为不知道栈的深度，有可能无限深，于是我就用list进行定义栈的结构
+代码:
+import java.util.Stack;
+import java.util.*;
+
+public class Solution {
+
+    ArrayList<Integer> list = new ArrayList<Integer>();
+    public void push(int node) {
+        list.add(node);    
+    }
+    
+    public void pop() {
+        list.remove(list.size()-1);
+    }
+    
+    public int top() {
+        int result = 0;
+        result = list.get(list.size()-1);
+        return result;
+    }
+    
+    public int min() {
+        int result = Integer.MAX_VALUE;
+        for(int i = 0; i < list.size(); i++){
+            result = result < list.get(i) ? result : list.get(i);
+        }
+        return result;
+    }
+}
