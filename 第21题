@@ -53,3 +53,68 @@ public class Solution {
         return result;
     }
 }
+但是呢我们要注意到一个细节:
+你看，一开始就已经给了util.Stack,所以应该用到栈。
+本题的目的为了达到O(1),应该吧最小的值放到栈顶，如此则快。
+import java.util.Stack;
+
+public class Solution {
+
+    
+    public void push(int node) {
+        
+    }
+    
+    public void pop() {
+        
+    }
+    
+    public int top() {
+        
+    }
+    
+    public int min() {
+        
+    }
+}
+从而我们需要辅助栈，用来不断的存储最小值。
+但是我们需要注意到原先的栈pop掉，辅助栈也需pop，但是如何保证pop后的辅助栈的栈顶仍为剩下值的最小值呢
+这时候在push的时候就需要注意了，一开始两个栈都为空，第一个值都为最小值，则都往里push，从第2个值开始，原始栈照样push，辅助栈需要
+注意新的值与原先的栈顶哪个小，把小的值push进辅助栈，如此在pop后辅助栈的栈顶始终为最小值。
+代码:
+注意stack1 == null时错误
+stack1.size() == 0才对
+
+import java.util.Stack;
+
+public class Solution {
+
+    Stack<Integer> stack1 = new Stack<Integer>();
+    Stack<Integer> stack2 = new Stack<Integer>();
+    public void push(int node) {
+        if(stack1.size() == 0){//注意stack1 == null时错误
+            stack1.push(node);
+            stack2.push(node);
+        }else{
+            stack1.push(node);
+            int result = stack2.peek() < node ? stack2.peek() : node;
+            stack2.push(result);
+        }
+        
+    }
+    
+    public void pop() {
+        stack1.remove(stack1.size()-1);
+        stack2.remove(stack2.size()-1);
+        
+    }
+    
+    public int top() {
+        int result = stack1.peek();
+        return result;
+    }
+    
+    public int min() {
+        return stack2.peek();
+    }
+}
