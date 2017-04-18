@@ -1,0 +1,44 @@
+题目:输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否为该栈的弹出顺序。假设压入栈的所有数字均
+不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4，5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的
+弹出序列。（注意：这两个序列的长度是相等的）
+思路:原先给力量入数组，一个存储要入栈的数据顺序，另一个是出栈的顺序。
+import java.util.ArrayList;
+
+public class Solution {
+    public boolean IsPopOrder(int [] pushA,int [] popA) {
+      
+    }
+}
+我们新建一个list，如果pushA[i] != popA[number]
+则该元素暂时不pop，需要list.add压入栈
+如果相等，则不用压入，其意思是这个元素压入了，在下一个元素压入之前，就把这个元素pop掉，所以这个元素不压入,number++
+直至第一个数组遍历完，list从后往前是栈的内容。
+然后list从后往前与popA[number]比较,不相等则false,因为此时popA[number]的元素不在栈顶。
+
+代码:
+import java.util.ArrayList;
+
+public class Solution {
+    public boolean IsPopOrder(int [] pushA,int [] popA) {
+        ArrayList<Integer> stack_arr = new ArrayList<Integer>();//用于存储栈内数据
+        boolean result = true;
+        int number = 0;
+        for(int i = 0; i < pushA.length; i++){
+            if(pushA[i] != popA[number]){
+                stack_arr.add(pushA[i]);
+            }else{
+                number++;//要压入的和要pop掉的数相等，该数就不往stack_arr里存了。
+            }
+        }
+        for(int i = stack_arr.size()-1; i >= 0 ; i--){
+            if(stack_arr.get(i) == popA[number]){
+                number++;
+            }else{
+                result = false;
+                break;
+            }    
+        }
+        return result;
+      
+    }
+}
