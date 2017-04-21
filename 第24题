@@ -1,4 +1,29 @@
 题目:输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+思路:本题还是要用到递归。
+首先二叉搜索树，若右子树不空，则右子树所有节点的值都大于根节点的值，若左子树不为空，则左子树所有节点的值均小于根节点的值。
+本题思路，对于后序遍历，对于sequence，最后一个为该树的根节点。首先是panduan(sequence, 0, sequence.length-1)
+0为start，sequence.length-1为根节点root的坐标。
+随着判断子树的左子树、右子树、子树的子树的....start和root的坐标会不断变化。
+当start >= root 时判断到了叶子节点，证明这一路上都没有错，都符合二叉排序树，所以return true。
+当start < root 时还没有遍历到叶子节点，证明还有子树，还需要判断是否符合二叉排序树。那么怎样才能符合二叉排序树呢。
+要求已经说了，若右子树不空，则右子树所有节点的值都大于根节点的值，若左子树不为空，则左子树所有节点的值均小于根节点的值。
+
+所以
+ while(i > start && sequence[i-1] > sequence[root])
+      i--;//从后往前找，找到左子树的跟节点坐标
+i-1是左子树的根节点坐标。
+然后判断从start 到 i-1是否都小于 sequence[root]
+不能是小于sequence[i-1]因为左子树可能有它的右子树，其值会大于左子树的根节点值。但是都会小于之前那一层的根节点。
+
+就算只有右子树，没有左子树。找到最后因为是while(i > start && sequence[i-1] > sequence[root])
+当i==start时已经跳出循环，不会再找sequence[i-1]所以不会越界。
+此时panduan(sequence, start, i-1)return true.
+
+为什么是start>= root 而不是 start==root 时return true.
+如果是start==root，想想上面这种情况。 panduan(sequence, start, i-1) i == start.越界了。
+
+root-1是右子树的根节点坐标。
+
 代码:
 public class Solution {
     public boolean VerifySquenceOfBST(int [] sequence) {
@@ -15,11 +40,14 @@ public class Solution {
         //while(i >= start && sequence[i-1] > sequence[root])
         while(i > start && sequence[i-1] > sequence[root])
             i--;//从后往前找，找到左子树的跟节点
+        //注意sequence[i-1] < sequence[root]
+        //i-1是左子树的根节点坐标
         //for(int j = i; j >= start; j--)
         for(int j = start; j < i-1; j++)
             if(sequence[j] > sequence[root])
                 return false;
         //return panduan(sequence, start, i) && panduan(sequence, i+1, root);
+        //注意sequence[i-1] < sequence[root]
         return panduan(sequence, start, i-1) && panduan(sequence, i, root-1);
         
     }
