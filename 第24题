@@ -1,0 +1,26 @@
+题目:输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
+代码:
+public class Solution {
+    public boolean VerifySquenceOfBST(int [] sequence) {
+        if(sequence.length == 0)
+            return false;
+        if(sequence.length == 1)
+            return true;
+        return panduan(sequence, 0, sequence.length-1);
+    }
+    public boolean panduan(int[] sequence, int start, int root){
+        if(start >= root)
+            return true;
+        int i = root;
+        //while(i >= start && sequence[i-1] > sequence[root])
+        while(i > start && sequence[i-1] > sequence[root])
+            i--;//从后往前找，找到左子树的跟节点
+        //for(int j = i; j >= start; j--)
+        for(int j = start; j < i-1; j++)
+            if(sequence[j] > sequence[root])
+                return false;
+        //return panduan(sequence, start, i) && panduan(sequence, i+1, root);
+        return panduan(sequence, start, i-1) && panduan(sequence, i, root-1);
+        
+    }
+}
