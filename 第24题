@@ -15,9 +15,11 @@ i-1是左子树的根节点坐标。
 然后判断从start 到 i-1是否都小于 sequence[root]
 不能是小于sequence[i-1]因为左子树可能有它的右子树，其值会大于左子树的根节点值。但是都会小于之前那一层的根节点。
 
+如果没有左子树的情况
 就算只有右子树，没有左子树。找到最后因为是while(i > start && sequence[i-1] > sequence[root])
 当i==start时已经跳出循环，不会再找sequence[i-1]所以不会越界。
 此时panduan(sequence, start, i-1)return true.
+panduan(sequence, i, root-1)去除掉原先树的根节点，判断右子树是否为二叉排序树
 
 为什么是start>= root 而不是 start==root 时return true.
 如果是start==root，想想上面这种情况。 panduan(sequence, start, i-1) i == start.越界了。
