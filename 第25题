@@ -69,8 +69,73 @@ void PreOrder(BiTree root)
 不断如此，访问完叶子节点，访问父节点的右子树。如此不断入栈出栈，递归访问实现先序遍历。
 
 
+本题思路:
+利用了栈，栈中存储路径上的节点的值，先序遍历，进入某个节点的左子树时，下一条指令压入栈，即进入该节点的右子树压入栈。
+当遇到叶子节点是进入if(left == null && right == null)存储路径，然后取栈顶，指令栈顶存储进入该叶子节点的右子树，因为if(root == null)所以pop掉
+存储路径的栈的栈顶。此时继续取出指令的栈的栈顶。进入叶子节点的父节点的右子树
 
 本题代码:
+import java.util.ArrayList;
+import java.util.*;
+/**
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+    
+    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root,int target) {
+        ArrayList<ArrayList<Integer>> all = new ArrayList<ArrayList<Integer>>();
+        Stack<Integer> stack = new Stack<Integer>();
+        if(root == null)
+            return all;
+        Findpath_digui(root, stack, target, all);
+        return all;
+    }
+    public void Findpath_digui(TreeNode root, Stack<Integer> stack, int target, ArrayList<ArrayList<Integer>> all){
+        if(root == null)
+            return;
+        if(root.left == null && root.right == null){
+            if(root.val == target){
+                ArrayList<Integer> list = new ArrayList<Integer>();
+                for(int i : stack){
+                    list.add(new Integer(i));
+                }
+                list.add(new Integer(root.val));//因为此时stack里存的是之前的节点值，叶子节点的值还没存，
+                                                //因为叶子节点的left, right == null
+                all.add(list);
+                return;//原先的思路没加，但是此处作为一个终结点，还是该加
+            }   
+        }else{
+            stack.push(new Integer(root.val));//因为终点是叶子节点，而不是某个左子节点或者右子节点为空的节点，stack里存着路径
+            Findpath_digui(root.left, stack, target-root.val, all);//先序遍历
+            Findpath_digui(root.right, stack, target-root.val, all);
+            stack.pop();//到了这一步，说明已经找到一条路径了，去掉该叶子节点。
+        }
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
