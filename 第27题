@@ -1,0 +1,42 @@
+题目:输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。
+思路:本题画一下图就会知道是一个中序遍历的题，但是又不能创建新的节点。我们可以利用辅助容器，vector也行,stack也行,arraylist也行.保存
+中序遍历下的各个节点顺序
+代码:
+/**
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+import java.util.*;
+public class Solution {
+    ArrayList<TreeNode> list = new ArrayList<TreeNode>();
+    public TreeNode Convert(TreeNode pRootOfTree) {
+        //中序遍历
+		if(pRootOfTree == null)
+            return null;
+        convert_second(pRootOfTree, list);
+        for(int i = 0; i < list.size()-1; i++){
+            list.get(i).right = list.get(i+1);
+            list.get(i+1).left = list.get(i);
+        }
+        return list.get(0);
+    }
+    public void convert_second(TreeNode pRootOfTree, ArrayList<TreeNode> list){
+        if(pRootOfTree == null)
+            return;
+        convert_second(pRootOfTree.left, list);
+        list.add(pRootOfTree);
+        convert_second(pRootOfTree.right, list);
+    }
+}
+
+
+
