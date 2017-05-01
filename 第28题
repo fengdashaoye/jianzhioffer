@@ -1,0 +1,52 @@
+题目描述
+输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。 
+输入描述:
+输入一个字符串,长度不超过9(可能有字符重复),字符只包括大小写字母。
+深度遍历:
+深度优先遍历,简单说就是先沿着一条路线最靠左或最靠右的路线往下走,并把路过的顶点标记为已访问.一直走到无路可走,或者下一站的顶点都被已经
+访问过了,就顺着刚才走过的路往回看(回溯),当发现回溯中的某一顶点还有其他未被访问过的分支的时候,就选择这个分支继续,重复上面的过程继续遍
+历.直到回溯到了遍历的出发点,就结束遍历.但如果检查发现图中还存在未被访问过的顶点,就说明图中还存在孤立与本图的分图.此时则任意选择一个
+未被访问过的顶点继续访问.  最后当图中所有的顶点都被访问过的时候,就说明遍历完成.　
+/**
+ 2      * 寻找没有被访问过的顶点.
+ 3      * @return > 0 即为还未被访问过的顶点.   -1 说明所有的节点都被访问过了.
+ 4      */
+ 5     private int findNotVisited(){
+ 6         for(int i = 0; i < noteNum; i ++){
+ 7             if(visitedCount[i] == 0){
+ 8                 return i;
+ 9             }
+10         }
+11         return -1;
+12     }
+
+/**
+ 2      * 深度遍历的递归
+ 3      * @param begin  从第几个节点开始遍历
+ 4      */
+ 5     public void DFS(int begin, Queue<T> edges){
+ 6         visitedCount[begin] = 1;                         //标记begin为已访问
+ 7         edges.offer(verticeInfo[begin]);                 //加入记录队列
+ 8         for(int a = 0; a < verticeNum; a++){             //遍历相邻的点
+ 9             if((racs[begin][a] != Integer.MAX_VALUE)&& visitedCount[a] == 0){   //相邻的点未被访问过
+10                 DFS(a,edges);
+11             }
+12         }
+13     }
+14 
+15     /**
+16      * 开始深度优先遍历
+17      * @return  返回保持有遍历之后的顺序的队列
+18      */
+19     public Queue<T> depthFirstSearch(){
+20         initVisitedCount();         //将记录访问次序的数组初始化为0
+21         Queue<T> edges = new LinkedList<>();    //用于存储遍历过的点,用于输出
+22         int begin = -1;
+23         while((begin = findNotVisited()) != -1){        //不等于-1说明还有未访问过的点
+24             DFS(begin,edges);
+25         }
+26         return edges;
+27     }
+
+思路:本题需要用到深度遍历，找遍所有的序列
+http://blog.csdn.net/yang20141109/article/details/51333417
