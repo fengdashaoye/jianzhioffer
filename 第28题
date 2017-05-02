@@ -101,6 +101,37 @@ public class Solution {
 }
 
 能够的代码:
+链接：https://www.nowcoder.com/questionTerminal/fe6b651b66ae47d7acce78ffdd9a96c7
+来源：牛客网
+
+/* 
+  *字典排序算法 
+  *一个全排列可看做一个字符串，字符串可有前缀、后缀。 
+
+  *生成给定全排列的下一个排列.所谓一个的下一个就是这一个与下一个之间没有其他的。这就要求这一个与下一个有尽可能长的共同前缀，也即变化限制在尽可能短的后缀上。 
+
+  *[例]839647521是1--9的排列。1—9的排列最前面的是123456789，最后面的987654321，从右向左扫描若都是增的，就到了987654321，也就没有下一个了。否则找出第一次出现下降的位置。 
+  * 【例】 一般而言，设P是[1,n]的一个全排列。 
+  *　　　　　　P=P1P2…Pn=P1P2…Pj-1PjPj+1…Pk-1PkPk+1…Pn 
+  *　　　　find:　　j=max{i|Pi<Pi+1} 
+  *　　　　　　　　　k=max{i|Pi>Pj} 
+  *　　　　　　1，  对换Pj，Pk， 
+  *　　　　　　2，  将Pj+1…Pk-1PjPk+1…Pn翻转 
+  *          P’= P1P2…Pj-1PkPn…Pk+1PjPk-1…Pj+1即P的下一个   
+  *【例】 如何得到346987521的下一个 
+  *    1，从尾部往前找第一个P(i-1) < P(i)的位置 
+  *            3 4 6 <- 9 <- 8 <- 7 <- 5 <- 2 <-
+  1 
+  *        最终找到6是第一个变小的数字，记录下6的位置i-1 
+  *    2，从i位置往后找到最后一个大于6的数 
+  *            3 4 6 -> 9 -> 8 -> 7 5 2 1 
+  *        最终找到7的位置，记录位置为m 
+  *    3，交换位置i-1和m的值 
+  *            3 4 7 9 8 6 5 2 1 
+  *    4，倒序i位置后的所有数据 
+  *            3 4 7 1 2 5 6 8 9 
+  *    则347125689为346987521的下一个排列 
+  */
 import java.util.ArrayList; 
 import java.util.Arrays; 
   public class Solution {
@@ -142,7 +173,7 @@ import java.util.Arrays;
           chars[j] = temp; 
       }
       private void reverse(char[] chars,int k) { 
-          if(chars==null || chars.length<=k) { 
+          if(chars==null || chars.length<=k) {//最开始升序时，因为这，不用reverse
               return; 
           } 
           int len = chars.length; 
