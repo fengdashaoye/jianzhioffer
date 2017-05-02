@@ -99,3 +99,57 @@ public class Solution {
         return result;
     }
 }
+
+能够的代码:
+import java.util.ArrayList; 
+import java.util.Arrays; 
+  public class Solution {
+      public ArrayList<String> Permutation(String str) { 
+          ArrayList<String> list = new ArrayList<String>();
+          if(str == null || str.length()==0) { 
+              return list; 
+          } 
+          char[] chars = str.toCharArray(); 
+          Arrays.sort(chars); 
+          list.add(String.valueOf(chars)); 
+          int len = chars.length; 
+          while(true) { 
+              int lIndex = len-1; 
+              //从右往左，找到每一个开始变小数字的位置 
+              while(lIndex>0 && chars[lIndex-1]>=chars[lIndex]){ 
+                  lIndex--; 
+              } 
+              //从右向左扫描若都是增的，代表全排列结束 
+              if(lIndex == 0) { 
+                  break; 
+              } 
+              int rIndex = lIndex; 
+              //从开始变小数字后面开始向右遍历，找到最后一个比这个数字大的数 
+              while(rIndex<len && chars[rIndex]>chars[lIndex-1]) { 
+                  rIndex++; 
+              } 
+              //交换lIndex-1和rIndex-1这两个数的位置 
+              swap(chars,lIndex-1,rIndex-1); 
+              //lIndex开始逆序 
+              reverse(chars,lIndex);
+              list.add(String.valueOf(chars)); 
+          } 
+          return list; 
+      }
+      private void swap(char[] chars, int i, int j) { 
+          char temp = chars[i]; 
+          chars[i] = chars[j]; 
+          chars[j] = temp; 
+      }
+      private void reverse(char[] chars,int k) { 
+          if(chars==null || chars.length<=k) { 
+              return; 
+          } 
+          int len = chars.length; 
+          for(int i=0; i<(len-k)/2; i++) { 
+              int m = k+i; 
+              int n = len-1-i; 
+              swap(chars,m,n); 
+          }
+      }
+  }
