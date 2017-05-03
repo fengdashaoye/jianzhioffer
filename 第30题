@@ -63,3 +63,55 @@ public class Solution {
         input[pos]=temp;
     }
 }
+
+解释过的代码:
+import java.util.ArrayList;
+public class Solution {
+    public ArrayList<Integer> GetLeastNumbers_Solution(int [] input, int k) {
+        ArrayList<Integer> list=new ArrayList<Integer>();
+        //检查输入的特殊情况
+        if(input==null || input.length<=0 || input.length<k){
+            return list;
+        }
+        //构建最大堆,原本是k个数,从k/2开始，但是数组为从0开始，所以要k/2-1开始,注意(k/2 - 1)和k-1是父子关系
+        //为什么从k/2-1开始呢，第2个参数代表父节点，2*(第2个参数)+1为其子节点，不断排序。
+        //第3个参数为初始堆的个数，k/2-1到k没有子节点，因为2*它+会大于第3个参数，大于堆的个数
+        //这一段为先从低层的父节点开始排序，不断知道以根节点为父节点进行排序
+        for(int len=k/2-1; len>=0; len--){
+            adjustMaxHeapSort(input,len,k-1);
+        }
+        //从第k个元素开始分别与最大堆的最大值做比较，如果比最大值小，则替换并调整堆。
+        //最终堆里的就是最小的K个数。
+        int tmp;
+        for(int i=k; i<input.length; i++){
+            if(input[i]<input[0]){
+                tmp=input[0];
+                input[0]=input[i];
+                input[i]=tmp;
+                adjustMaxHeapSort(input,0,k-1);//根节点已经是最大值了，存在比根节点小的值，则该点属于该堆，那么新的最大堆的根节点就
+                //不是原先的根节点，要被踢出去
+            }
+        }
+        for(int j=0; j<k; j++){
+            list.add(input[j]);
+        }
+        return list;
+    }
+    public void adjustMaxHeapSort(int[] input, int pos, int length){
+        int temp;//pos 和 child 是父子关系
+        int child;
+        for(temp=input[pos]; 2*pos+1<=length; pos=child){//pos=child;再往下判断，此时pos为原先的孩子,child为pos的孩子，直至child为叶子节点
+            child=2*pos+1;
+            if(child<length && input[child]<input[child+1]){//pos的两个孩子，看哪个孩子更大
+                child++;
+            }
+            if(input[child]>temp){
+                input[pos]=input[child];
+            }else{
+                break;
+            }
+        }
+        input[pos]=temp;
+    }
+}
+
