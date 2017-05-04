@@ -3,46 +3,66 @@ HZ偶尔会拿些专业问题来忽悠那些非计算机专业的同学。今天
 一维模式识别中,常常需要计算连续子向量的最大和,当向量全为正数的时候,问题很好解决。但是,如果向
 量中包含负数,是否应该包含某个负数,并期望旁边的正数会弥补它呢？例如:{6,-3,-2,7,-15,1,2,2},连续子
 向量的最大和为8(从第0个开始,到第3个为止)。你会不会被他忽悠住？(子向量的长度至少是1)
+
+思路:除去各种边界，首先找到第1个非负数，赋给result和result_beifen。
+最终返回的是result_beifen。
+result += 后续的数字，如果result < 0.则说明这一段之和为负数，这一段可以视为1个负数，可以忽略
+此时result = 0，重新开始，继续加上后续的数字.
+如果大于result_beifen,则替换。
+如此能够找到result_beifen.
+
 代码:
 public class Solution {
+    public int first_positive(int[] array){
+        int i = 0;
+        for(; i < array.length; i++){
+            if(array[i] > 0){
+                break;
+            }
+        }
+        return i;
+    }
+    public int max(int[] array){
+        int result = Integer.MIN_VALUE;
+        for(int i = 0; i < array.length; i++){
+            if(array[i] > result){
+                result = array[i];
+            }
+        }
+        return result;
+    }
+    public boolean all_neg(int[] array){
+        boolean result = true;
+        for(int i = 0; i < array.length; i++){
+            if(array[i] > 0){
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
     public int FindGreatestSumOfSubArray(int[] array) {
         if(array == null || array.length == 0)
             return 0;
         int result = 0;
-        int start = 0;
-        int i = 0;
-        for(; i < array.length; i++){
-            if(array[i] > 0){
-                result = array[i];
-                start = i;
-                break;
-            }
-        }
-        if(start == array.length)//注意判断全负数
-            return min(array);
-        int head = start;
-        int result_head = result;
-        start++;
-        for(; start < array.length; start++){
-            result = result+array[start];
-            if(result >= 0){
-                if(result > result_head){
-                    result_head = result;
-                }    
-            }else{
+        if(all_neg(array))
+            return max(array);
+        int first = first_positive(array);
+        result = array[first];
+        int result_beifen = result;
+        first++;
+        for(; first < array.length; first++){
+            result += array[first];
+            //一个个加，加上一段array的数字，如果小于0，则认为这一段为负数，result=0，之前的result略过,重新开始
+            if(result <= 0){
                 result = 0;
             }
-        }
-        
-        
-    }
-    public int min(int[] array){
-        int min_number = Integer.MAX_VALUE;
-        for(int i = 0; i < array.length; i++){
-            if(array[i] < min_number){
-                min_number = array[i];
+            //找到某一段比原先的result_beifen大，则替换
+            if(result > result_beifen){
+                result_beifen = result;
             }
+    
         }
-        return min_number;
-    }
+        return result_beifen;        
+    } 
 }
