@@ -1,0 +1,74 @@
+题目描述
+输入一个正整数数组，把数组里所有数字拼接起来排成一个数,打印能拼
+接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
+
+思路:注意，当比较32 和 321使，找到某一个string的末尾，较长的后面哪一位开始向后遍历，首先为1，看其与该string的第0位想比如何，大则替换，小则保存
+如321应该是<32的
+但是324是> 32的
+注意33334和3的比较，找到某一个string的末尾，较长的后面哪一位开始向后遍历，首先为3,与第0位相等，向后遍历，直至找到一位与第0位不同的，小于第0
+位则选，大于则不选
+如33334>3 应选3
+但是33332<3 应选33332
+
+代码:
+import java.util.ArrayList;
+
+
+public class Solution {
+    public String PrintMinNumber(int [] numbers) {
+        String result = "";
+        if(numbers == null || numbers.length == 0)
+            return result;
+        ArrayList<String> list = new ArrayList<String>();
+        for(int i = 0; i < numbers.length; i++){
+            list.add(String.valueOf(numbers[i]));
+        }
+        
+        while(!list.isEmpty()){
+            result = result.concat(minString(list));   
+        }
+        
+        return result;
+    }
+    
+    public String minString(ArrayList<String> list){
+        String result_2 = list.get(0);
+        int fin = 0;
+        for(int i = 1; i < list.size(); i++){
+            int j = 0;
+            int panduan = 0;
+            while(j < result_2.length() && j < list.get(i).length()){
+                if(result_2.charAt(j) > list.get(i).charAt(j)){
+                    result_2 = list.get(i);
+                    fin = i;
+                    panduan = 1;
+                    break;
+                }
+                j++;
+            }
+            if(panduan == 0){
+                if(j == result_2.length() && j < list.get(i).length()){
+                    for(; j < list.get(i).length(); j++){
+                    	if(list.get(i).charAt(j) < list.get(i).charAt(0)){
+                    		result_2 = list.get(i);
+                    		fin = i;
+                    		break;
+                    	}
+                    }
+                }else if(j == list.get(i).length() && j < result_2.length()){
+                	for(; j < result_2.length(); j++){
+                		if(result_2.charAt(j) > result_2.charAt(0)){
+                			result_2 = list.get(i);
+                			fin = i;
+                			break;
+                		}
+                	}
+                }
+            }
+            
+        }
+        list.remove(fin);
+        return result_2;
+    }
+}
+
