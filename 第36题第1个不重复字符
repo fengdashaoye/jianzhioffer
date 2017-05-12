@@ -1,0 +1,32 @@
+题目描述
+在一个字符串(1<=字符串长度<=10000，全部由字母组成)中找到第一个只出现一次的字符,并返回它的位置。如果字符串为空,返回-1
+思路:采用LinkedHashMap不用HashMap
+HashMap无序，LinkedHashMap有序
+代码:
+import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Map;
+public class Solution {
+    public int FirstNotRepeatingChar(String str) {
+        int result = -1;
+        if(str.length() <= 0)
+            return -1;
+        LinkedHashMap<Character, Integer> hash = new LinkedHashMap<Character, Integer>();
+        for(int i = 0; i < str.length(); i++){
+            if(!hash.containsKey(str.charAt(i))){
+                hash.put(str.charAt(i), i);
+            }else{
+                hash.put(str.charAt(i), -1);
+            }
+        }
+        for(Entry<Character, Integer> entry : hash.entrySet()){
+            if(entry.getValue() != -1){
+                result = entry.getValue();
+                break;
+            }
+        }
+        return result;
+    }
+}
