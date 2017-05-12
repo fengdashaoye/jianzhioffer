@@ -1,6 +1,8 @@
 题目描述
 统计一个数字在排序数组中出现的次数。
 思路：因为是排序的，用2分查找找到一个与给定值相同值的数组的位置，然后向前向后遍历
+这种做法还是不太好，因为可能全部都是22222222222，那么效率很低，
+应该用二分查找找到开始的坐标和结束的坐标，然后相减。
 代码：
 public class Solution {
     public int GetNumberOfK(int [] array , int k) {
@@ -50,3 +52,53 @@ public class Solution {
         return result;
     }
 }
+
+修改后的代码:
+public class Solution {
+    public int get_first(int[] array, int k){
+        int low = 0;
+        int high = array.length-1;
+        int mid = (low + high) >> 1;
+        //while(low < high){
+        while(low <= high){
+            if(array[mid] < k){
+                low = mid + 1;
+            }else{
+                high = mid - 1;
+            }
+            mid = (low + high) >> 1;
+        }
+        return low;
+    }
+    
+     public int get_last(int[] array, int k){
+        int low = 0;
+        int high = array.length-1;
+        int mid = (low + high) >> 1;
+        //while(low < high){
+        while(low <= high){
+            if(array[mid] <= k){
+                low = mid + 1;
+            }else{
+                high = mid - 1;
+            }
+            mid = (low + high) >> 1;
+        }
+        return high;
+    }
+    
+    public int GetNumberOfK(int [] array , int k) {
+        if(array == null || array.length == 0)
+            return 0;
+        int up = get_last(array, k);
+        int down = get_first(array, k);
+        return up-down+1;  
+    }
+   
+    
+    
+}
+
+
+
+
