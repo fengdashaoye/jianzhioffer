@@ -1,0 +1,87 @@
+题目描述
+输入一个递增排序的数组和一个数字S，在数组中查找两个数，是的他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。 
+输出描述:
+对应每个测试案例，输出两个数，小的先输出。
+思路:第一想法，找到sum/2介于两个数的坐标，然后分别向两端遍历
+
+代码:
+import java.util.ArrayList;
+public class Solution {
+    public ArrayList<Integer> FindNumbersWithSum(int [] array,int sum) {
+        ArrayList<Integer> content = new ArrayList<Integer>();
+        ArrayList<ArrayList<Integer> > list = new ArrayList<ArrayList<Integer> >();
+        if(array.length < 2)
+            return content;
+        int mid = sum >> 1;
+        int mid_number = 0;
+        for(int i = 0; i < array.length; i++){
+            if(mid < array[i]){
+                mid_number = i;
+                break;
+            }
+        }
+        int begin = mid_number-1;
+        int end = mid_number;
+        int zuobiao = end;
+        while(begin >= 0){
+            for(; end < array.length; end++){
+                if(array[begin] + array[end] == sum){
+                    ArrayList<Integer> result = new ArrayList<Integer>();
+                    result.add(array[begin]);
+                    result.add(array[end]);
+                    list.add(result);
+                    break;
+                }else if(array[begin] + array[end] >= sum){
+                    break;
+                }
+            }
+            begin--;
+        }
+        if(list.size() == 0)
+            return content;
+        ArrayList<Integer> last = list.get(0);
+        int jieguo = last.get(0) * last.get(1);
+        for(int i = 1; i < list.size(); i++){
+            int chengji = list.get(i).get(0) * list.get(i).get(1);
+            if(chengji < jieguo){
+                last = list.get(i);
+                jieguo = chengji;
+            }
+        }
+        return last;
+        
+        
+    }
+}
+
+新的思路:
+两个指针，begin 指向头， end指向尾,
+while(begin < end)
+如果两数之和为sum,直接返回，因为正方形面积最大，长和宽差异最大，面积越小。
+如果和>sum,end--
+如果和<sum,begin++
+代码:
+import java.util.ArrayList;
+public class Solution {
+    public ArrayList<Integer> FindNumbersWithSum(int [] array,int sum) {
+        ArrayList<Integer> content = new ArrayList<Integer>();
+        if(array.length < 2)
+            return content;
+        int begin = 0;
+        int end = array.length-1;
+        while(begin < end){
+            if(array[begin] + array[end] == sum){
+                content.add(array[begin]);
+                content.add(array[end]);
+                break;
+            }else if(array[begin] + array[end] > sum){
+                end--;
+            }else{
+                begin++;
+            }
+        }
+        return content;
+        
+        
+    }
+}
