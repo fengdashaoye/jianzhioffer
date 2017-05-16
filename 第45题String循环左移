@@ -1,0 +1,38 @@
+题目描述
+汇编语言中有一种移位指令叫做循环左移（ROL），现在有个简单的任务，就是用字符串模拟这个指令的
+运算结果。对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。例如，字符序列S=”abcXYZdef”,要求输出
+循环左移3位后的结果，即“XYZdefabc”。是不是很简单？OK，搞定它！
+
+思路:一开始的想法，这是一个很简单的问题，入栈出栈即可，为避免栈深度的问题，用Arraylist代替即可。
+但是，嗯，但是，很明显，题简单，但答案不简单，一开始的想法肯定不是最好的。
+代码:
+import java.util.ArrayList;
+public class Solution {
+    public String LeftRotateString(String str,int n) {
+        if(str == null || str.length() == 0 || n == 0)
+            return str;
+        ArrayList<Character> list = new ArrayList<Character>();
+        while(n > 0){
+            list.add(str.charAt(0));
+            str = str.substring(1, str.length()); 
+            n--;
+        }
+        for(int i = 0; i < list.size(); i++){
+            str += list.get(i);
+        }
+        
+        return str;
+    }
+}
+嗯，比较厉害的代码
+import java.util.ArrayList;
+public class Solution {
+    public String LeftRotateString(String str,int n) {
+        if(str == null || str.length() == 0 || n == 0)
+            return str;
+        int length = str.length();
+        n = n % length;
+        str += str;
+        return str.substring(n, length+n);
+    }
+}
