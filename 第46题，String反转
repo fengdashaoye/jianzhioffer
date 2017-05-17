@@ -41,3 +41,34 @@ public class Solution {
         
     }
 }
+
+这种思路，格式就行
+代码:
+import java.util.ArrayList;
+public class Solution {
+    public String ReverseSentence(String str) {
+        if(str == null || str.length() == 0)
+            return str;
+        
+        String result = "";
+        String tmp = "";
+        for(int i = 0; i < str.length(); i++){
+            if(str.charAt(i) == ' '){
+                result = ' ' + tmp + result;//反转
+                tmp = "";
+            }else{
+                tmp += str.charAt(i);
+            }
+        }
+        if(tmp.length() > 0){
+            result = tmp + result;
+        }
+        return result;
+        
+    }
+}
+
+
+
+
+
