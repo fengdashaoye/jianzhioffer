@@ -5,13 +5,21 @@
 后可以在礼品箱中任意的挑选礼物,并且不再回到圈中,从他的下一个小朋友开始,继续0...m-1报数....这样
 下去....直到剩下最后一个小朋友,可以不用表演,并且拿到牛
 客名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。请你试着想下,哪个小朋友会得到这份礼品呢？(注：小朋友的编号是从0到n-1
-暂时的代码:
+
+思路，嗯，我的方法不是很简单，有点复杂性，最好是能够推导出公式
+代码:
 public class Solution {
     public int LastRemaining_Solution(int n, int m) {
+        if(n == 0 || m == 0)
+            return -1;
         int[] content = new int[n];
+        for(int i = 0; i < n; i++){
+        	content[i] = i;
+        }
         int number = m % n;
+        int begin = 0;
         while(n > 1){
-            write(content, number);
+            begin = write(content, number, begin);
             n--;
             number = m % n;
         }
@@ -20,19 +28,51 @@ public class Solution {
         return result;
         
     }
-    public void write(int[] content, int number){
-        if(content[number] != -1){
-            content[number] = -1;
-        }else{
-            while(content[number] == -1){
-                if(number == content.length-1){
-                    number = 0;
-                }else{
-                    number++;
-                }
-            }
-            content[number] = -1;
+    public int write(int[] content, int number, int begin){
+    	if(number == 0){
+    		int result = begin;
+    		if(begin != 0){
+    			begin--;
+    		}else{
+    			begin = content.length-1;
+    		}
+    		while(content[begin] == -1){
+    			if(begin == 0){
+    				begin = content.length-1;
+    			}else{
+    				begin--;
+    			}
+    		}
+    		content[begin] = -1;
+    		return result;
+    	}
+    	int result = begin;
+    	int mid = begin;
+        while(number > 0){
+        	if(content[begin] != -1){
+        		mid = begin;
+        		if(begin == content.length -1){
+        			begin = 0;
+        			while(content[begin] == -1){
+        				begin++;
+        			}
+        		}else{
+        			begin++;
+        			while(content[begin] == -1){
+        				if(begin == content.length -1){
+        					begin = 0;
+        				}else{
+        					begin++;
+        				}
+        			}
+        			
+        		}
+        		number--;
+        	}
         }
+        content[mid] = -1;
+        result = begin;
+        return result;
     }
     public int fanhui(int[] content){
         int i = 0;
