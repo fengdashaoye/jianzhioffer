@@ -1,0 +1,27 @@
+题目描述
+求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。
+思路:利用递归，.需利用逻辑与的短路特性实现递归终止。
+
+代码:
+public class Solution {
+    public int Sum_Solution(int n) {
+        int number = n;
+        if(number == 0)
+            return 0;
+        boolean result = (number > 0) && ((number += Sum_Solution(n-1)) > 0);
+        return number;
+        
+    }
+}
+
+思路:利用了短路求值原理
+expr1 && expr2    //若expr1计算后若为false,则不再计算expr2的值，因为该式肯定为false。否则，计算expr2的值。
+假设求Sum_Solution(int n)
+result = (1 > 0) && ((number += Sum_Solution(0)) > 0)
+此时递归没有终止，需要看Sum_Solution(0)
+对于Sum_Solution(0)
+result = (0 > 0) && ((number += Sum_Solution(-1)) > 0)
+因为 0 > 0是false,对于与运算&&,第一个为false,后面则不用看
+所以递归终止，返回了0，
+所以Sum_Solution(0) = 0；
+归回去了。。。。。他们真是厉害
