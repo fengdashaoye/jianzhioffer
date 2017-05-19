@@ -86,4 +86,20 @@ public class Solution {
     }
 }
 
-
+用公式会感觉非常高大上，这是别人的代码:
+递推公式
+f[1]=0;
+f[i]=(f[i-1]+m)%i;  (i>1)
+代码:
+class Solution {
+public:
+    int LastRemaining_Solution(unsigned int n, unsigned int m)
+    {
+        if(n==0)
+            return -1;
+        if(n==1)
+            return 0;
+        else
+            return (LastRemaining_Solution(n-1,m)+m)%n;
+    }
+};
