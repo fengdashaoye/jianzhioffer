@@ -1,0 +1,122 @@
+题目描述
+请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
+思路:之前做过一题，求一棵树的镜像，于是用到了之前写的代码。
+首先创建一棵树，完全复制原树，然后把原树反转，然后判断
+/*
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+   
+    boolean isSymmetrical(TreeNode pRoot)
+    {
+        boolean result = true;
+        if(pRoot == null)
+            return true;
+        TreeNode head = pRoot;
+        TreeNode first = fuzhi(head);
+        head = pRoot;
+        mirror(pRoot);
+        result = panduan(first, head);
+        return result;
+        
+    }
+    public boolean panduan(TreeNode first, TreeNode second){
+        if(first == null && second == null)
+            return true;
+        if(first != null && second != null)//重点加上这一句
+            return (first.val == second.val) && panduan(first.left, second.left) && panduan(first.right, second.right);
+        return false;
+    }
+    public void mirror(TreeNode root){
+        if(root == null)
+            return;
+        TreeNode middle = root.left; //非叶节点
+        root.left = root.right;
+        root.right = middle;   
+        if(root.left != null)
+            mirror(root.left);
+        if(root.right != null)
+            mirror(root.right);
+    }
+    public TreeNode fuzhi(TreeNode root){
+        if(root == null)
+            return null;
+        TreeNode head = new TreeNode(root.val);
+        head.left = fuzhi(root.left);
+        head.right = fuzhi(root.right);
+        return head;
+    }
+      
+}
+
+
+如果这样写:则可能会丢失指针，因为树有可能是不对称的，
+/*
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+   
+    boolean isSymmetrical(TreeNode pRoot)
+    {
+        boolean result = true;
+        if(pRoot == null)
+            return true;
+        TreeNode head = pRoot;
+        TreeNode first = fuzhi(head);
+        head = pRoot;
+        mirror(pRoot);
+        result = panduan(first, head);
+        return result;
+        
+    }
+    public boolean panduan(TreeNode first, TreeNode second){
+        if(first == null && second == null)
+            return true;
+        if(first.val == second.val)//此时可能存在某一个为null，如果树不对称
+            return  panduan(first.left, second.left) && panduan(first.right, second.right);
+        return false;
+    }
+    public void mirror(TreeNode root){
+        if(root == null)
+            return;
+        TreeNode middle = root.left; //非叶节点
+        root.left = root.right;
+        root.right = middle;   
+        if(root.left != null)
+            mirror(root.left);
+        if(root.right != null)
+            mirror(root.right);
+    }
+    public TreeNode fuzhi(TreeNode root){
+        if(root == null)
+            return null;
+        TreeNode head = new TreeNode(root.val);
+        head.left = fuzhi(root.left);
+        head.right = fuzhi(root.right);
+        return head;
+    }
+      
+}
+
+
+
