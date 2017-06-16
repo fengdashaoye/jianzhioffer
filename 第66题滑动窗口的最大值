@@ -1,0 +1,59 @@
+题目描述
+给定一个数组和滑动窗口的大小，找出所有滑动窗口里数值的最大值。例如，如果输入数组{2,3,4,2,6,2,5,1}及滑动窗口的大小3，那么一共存在6个
+滑动窗口，他们的最大值分别为{4,4,6,6,6,5}； 针对数组{2,3,4,2,6,2,5,1}的滑动窗口有以下6个： {[2,3,4],2,6,2,5,1}， 
+{2,[3,4,2],6,2,5,1}， {2,3,[4,2,6],2,5,1}， {2,3,4,[2,6,2],5,1}， {2,3,4,2,[6,2,5],1}， {2,3,4,2,6,[2,5,1]}。
+
+思路；存储最大值的坐标，当start <= 最大值的坐标时，只需比较最大值后最后一个值，如果 start > 最大值的坐标时，重新计算窗口内的最大值，
+并存储其坐标。
+代码:
+import java.util.*;
+public class Solution {
+    public ArrayList<Integer> maxInWindows(int [] num, int size)
+    {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        if(num == null || num.length <= 0 || size <= 0 || size > num.length)
+            return result;
+        int[] content = search(num, size, 0);
+        int start = 1;
+        result.add(content[0]);
+        while(num.length-size >= start){
+            if(start <= content[1]){
+                if(content[0] >= num[start+size-1]){
+                    result.add(content[0]);
+                }else{
+                    result.add(num[start+size-1]);
+                    content[0] = num[start+size-1];
+                    content[1] = start+size-1;
+                }
+            }else{
+                content = search(num, size, start);
+                result.add(content[0]);
+            }
+            
+            start++;
+        }
+        return result;
+         
+        
+    }
+    public int[] search(int[] num, int size, int start){
+        int result = Integer.MIN_VALUE;
+        int position = -1;
+        int[] content = new int[2];
+        for(int i = 0; i < size; i++){
+            if(num[i+start] > result){
+                result = num[i+start];
+                position = i + start;
+            }
+        }
+        content[0] = result;
+        content[1] = position;
+        return content;
+    }
+}
+
+
+
+
+
+
