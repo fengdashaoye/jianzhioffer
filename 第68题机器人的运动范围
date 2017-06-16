@@ -1,0 +1,35 @@
+题目描述
+地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方
+向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够
+进入方格（35,37），因为3+5+3+7 = 18。但
+是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？
+
+思路：还是回溯法，还是那位大神的答案，还是用int[][] flag记录是否走过，走过就不再加1
+代码:
+public class Solution {
+    public int movingCount(int threshold, int rows, int cols)
+    {
+        int[][] flag = new int[rows][cols];
+        return help(0, 0, rows, cols, flag, threshold);
+    }
+    public int help(int i, int j, int rows, int cols, int[][] flag, int threshold){
+        if(i < 0 || i >= rows || j < 0 || j >= cols || sum(i) + sum(j) > threshold || flag[i][j] == 1)
+            return 0;
+        flag[i][j] = 1;
+        return help(i-1, j, rows, cols, flag, threshold) 
+            + help(i+1, j, rows, cols, flag, threshold) 
+            + help(i, j-1, rows, cols, flag, threshold) 
+            + help(i, j+1, rows, cols, flag, threshold) + 1;
+    }
+    public int sum(int number){
+        int result = 0;
+        do{
+            result += (number%10);
+        }while((number = number/10) > 0);
+        return result;
+    }
+}
+
+
+
+
