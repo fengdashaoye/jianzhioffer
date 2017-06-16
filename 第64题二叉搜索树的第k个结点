@@ -62,8 +62,8 @@ public class Solution {
     {
         if(pRoot != null){
             TreeNode node = KthNode(pRoot.left, k);
-            if(node != null) //为了确保在找到(number == k)的时候能逐层返回
-                return node;
+            if(node != null) //为了确保在找到(number == k)的时候能逐层返回,当一直找，找到叶子节点的左节点时，因为pRoot == null,一开始的
+                return node;//判断，返回null,所以node == null,所以number可以++;
             number++;
             if(number == k)
                 return pRoot;
@@ -76,8 +76,16 @@ public class Solution {
 
 
 }
-
-
+明白了
+比如说
+     5
+   3   7
+ 2  4 6 8
+当k=2时答案为3,首先从根节点开始中序遍历，直至节点2,节点2的左节点为null,number++ 但不等于k，看节点2的右节点,为null，返回上一层，到了节点3，因为
+之前返回的是null，所以直接number++，所以number == k，直接返回节点3，此后因为返回的node 都不等于null，所以能保证逐层返回节点3.
+如果k=3
+重复上述动作，2结束后返回null，number=1，到了上一层节点3，因为之前返回的null，number++，不等于k,然后到节点3的右节点:节点4.节点4的左节点为null
+number++,发现等于k，所以返回节点4，后续发现返回的不是null，所以可以不断把节点4逐层返回。
 
 
 
